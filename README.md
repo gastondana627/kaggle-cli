@@ -156,3 +156,6 @@ This tab runs the headless scraper loop, silently pulling real scores from Kaggl
 cd ~/kaggle-cli
 source venv/bin/activate
 ./auto_sync.sh
+
+
+<img width="1284" height="674" alt="5ADDE2E9-008F-4F8C-9619-55148DCA8F92" src="https://github.com/user-attachments/assets/2a6a2b0f-312f-485f-8f37-fe5361f91925" />
