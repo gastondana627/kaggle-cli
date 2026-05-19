@@ -79,3 +79,16 @@ target/
 
 # Kagent
 .kagent-context/**
+
+# ==========================================
+# Custom Telemetry & Pencil Physics Workspace
+# ==========================================
+venv/
+benchmark-results/
+.run.json
+*.json
+*.png
+model-performance-analysis/
+pencil-physics-dashboard/
+pencil-physics-test/
+run_terminal_test.sh

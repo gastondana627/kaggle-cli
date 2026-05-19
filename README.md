@@ -128,3 +128,31 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 The Kaggle CLI is released under the [Apache 2.0 license](LICENSE.txt).
+
+
+
+
+
+## UPDATED
+
+---
+
+## 🚀 Custom Telemetry Pipeline: Pencil Physics Integration
+
+This repository contains a custom, deterministic telemetry pipeline designed to bridge live Kaggle cloud evaluation metrics with local VS Code environments. It bypasses React virtualized tables and dynamic loading to stream absolute truth data directly to a local Dev Tool Integration Board.
+
+### Architecture Overview
+* **`auto_sync.sh` (The Daemon):** A background polling engine that executes every 60 seconds.
+* **`sync_kaggle.py` (The Scraper):** A Playwright-powered headless automation script featuring a "Pagination Hacker" to force Kaggle's UI to render all hidden models.
+* **`run_eval.py` (The Local Trigger):** A local execution script used to drop baseline evaluation files during live presentations.
+
+### 🎭 Live Presentation Workflow (The 2-Tab System)
+
+To run the pipeline continuously without interrupting the presentation environment, follow this two-tab terminal approach:
+
+#### Tab 1: The Silent Background Worker
+This tab runs the headless scraper loop, silently pulling real scores from Kaggle every minute.
+```sh
+cd ~/kaggle-cli
+source venv/bin/activate
+./auto_sync.sh
