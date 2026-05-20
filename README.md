@@ -1,155 +1,76 @@
-# Kaggle CLI
+This is the right move. That generic Kaggle documentation was creating "noise" that hid the actual engineering work you put into this repository.
 
-The official CLI to interact with [Kaggle](https://www.kaggle.com).
-
----
-
-[User documentation](docs/README.md)
+By stripping it down to just your project, you turn this into a proper **System Documentation** file. Here is your new, clean, and professional `README.md` for the `kaggle-cli` repository.
 
 ---
 
-## Key Features
+# Pencil Physics Engine (`kaggle-cli`)
 
-Some of the key features are:
-
-* List competitions, download competition data, submit to a competition.
-* List, create, update, download or delete datasets.
-* List, create, update, download or delete models & model variations.
-* List, update & run, download code & output or delete kernels (notebooks).
-* Browse and read discussion forums.
-
-## Installation
-
-Install the `kaggle` package with [pip](https://pypi.org/project/pip/):
-
-```sh
-pip install kaggle
-```
-
-Additional installation instructions can be found [here](docs/README.md#installation).
-
-## Quick start
-
-Explore the available commands by running:
-
-```sh
-kaggle --help
-```
-
-See the [User documentation](docs/README.md) for more examples & tutorials.
-
-## Development
-
-### `kagglesdk` Updates
-
-New features that interact with `kaggle.com` probably require changes to the Python library, `kagglesdk`.
-Make sure to bump the minimum version required for `kagglesdk` in the `dependencies` list specified in
-[pyproject.toml][pyproject.toml]]. Make sure the required version is available on the
-[pypi.org kagglesdk project](https://pypi.org/project/kagglesdk/#history).
-
-### Prerequisites
-
-We use [hatch](https://hatch.pypa.io) to manage this project.
-
-Follow these [instructions](https://hatch.pypa.io/latest/install/) to install it.
-
-### Run `kaggle` from source
-
-#### Option 1: Execute a one-liner of code from the command line
-
-```sh
-hatch run kaggle datasets list
-```
-
-#### Option 2: Run many commands in a shell
-
-```sh
-hatch shell
-
-# Inside the shell, you can run many commands
-kaggle datasets list
-kaggle competitions list
-...
-```
-
-### Lint / Format
-
-```sh
-# Lint check
-hatch run lint:style
-hatch run lint:typing
-hatch run lint:all     # for both
-
-# Format
-hatch run lint:fmt
-```
-
-### Tests
-
-Note: These tests are not true unit tests and are calling the Kaggle web server.
-
-```sh
-# Run against kaggle.com
-hatch run test:prod
-
-# Run against a local web server (Kaggle engineers only)
-hatch run test:local
-```
-
-### Integration Tests
-
-To run integration tests on your local machine, you need to set up your Kaggle credentials. You can do this by following the [authentication instructions](docs/README.md#authentication).
-
-After setting up your credentials, you can run the integration tests as follows:
-
-```sh
-hatch run test:integration
-```
-
-### Running `hatch` commands inside Docker
-
-This is useful to run in a consistent environment and easily switch between Python versions.
-
-The following shows how to run `hatch run lint:all` but this also works for any other hatch commands:
-
-```
-# Use default Python version
-./docker-hatch run lint:all
-```
-
-## Changelog
-
-See [CHANGELOG](CHANGELOG.md).
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## License
-
-The Kaggle CLI is released under the [Apache 2.0 license](LICENSE.txt).
-
-
-
-
-
-## UPDATED
+The backend engine and data orchestration layer for the **Pencil Physics Mechanical Constraint Test**. This repository manages the scraping, data synchronization, and pipeline execution that feeds your live benchmarking platform.
 
 ---
 
-## 🚀 Custom Telemetry Pipeline: Pencil Physics Integration
+## 🏗️ System Overview
 
-This repository contains a custom, deterministic telemetry pipeline designed to bridge live Kaggle cloud evaluation metrics with local VS Code environments. It bypasses React virtualized tables and dynamic loading to stream absolute truth data directly to a local Dev Tool Integration Board.
+This project serves as the "Engine" in your 3-repo architecture. It is responsible for fetching raw telemetry from Kaggle, processing it into actionable metrics, and deploying snapshots to your web frontend.
 
-### Architecture Overview
-* **`auto_sync.sh` (The Daemon):** A background polling engine that executes every 60 seconds.
-* **`sync_kaggle.py` (The Scraper):** A Playwright-powered headless automation script featuring a "Pagination Hacker" to force Kaggle's UI to render all hidden models.
-* **`run_eval.py` (The Local Trigger):** A local execution script used to drop baseline evaluation files during live presentations.
+## 🚀 The Telemetry Pipeline
 
-### 🎭 Live Presentation Workflow (The 2-Tab System)
+The core of this repository is the automated daemon that ensures your benchmark data stays fresh.
 
-To run the pipeline continuously without interrupting the presentation environment, follow this two-tab terminal approach:
+| Script | Role |
+| --- | --- |
+| `auto_sync.sh` | **The Daemon:** Polls every 60 seconds; triggers scraping and deployment. |
+| `sync_kaggle.py` | **The Scraper:** Playwright-powered engine; extracts scores from Kaggle's UI. |
+| `run_eval.py` | **The Trigger:** Local evaluation tool; generates baseline runs. |
 
+### Running the Pipeline
+
+To start the synchronization daemon:
+
+```bash
+./auto_sync.sh
+
+```
+
+*This script automatically updates the local `telemetry_calendar.json` and pushes the latest production build to Vercel.*
+
+---
+
+## 📂 Project Structure
+
+```text
+kaggle-cli/
+├── src/kaggle/           # Core API & scraping logic
+├── benchmark-results/    # Local storage for .run.json files
+├── telemetry_calendar.json # The "Source of Truth" for the dashboard
+├── auto_sync.sh          # Master daemon script
+├── sync_kaggle.py        # Scraping implementation
+├── run_eval.py           # Evaluation runner
+└── pyproject.toml        # Environment configuration
+
+```
+
+## 🛠️ System Integration
+
+This repository is one-third of the **Pencil Physics** system. It maintains the following sync relationship:
+
+1. **Engine (`kaggle-cli`):** Scrapes data and generates `telemetry_calendar.json`.
+2. **Dashboard (`pencil-physics-dashboard`):** Watches the local root directory to render live metrics in VS Code.
+3. **Web (`pencil-physics-web`):** Receives the bridged JSON files and hosts the live [Pencil Physics Benchmark](https://pencil-physics-4b7ay8sdz-gastondana627s-projects.vercel.app/).
+
+## Prerequisites
+
+* **Python Environment:** Ensure the project virtual environment (`.venv`) is activated.
+* **Kaggle Auth:** Ensure your environment variables for Kaggle API access are configured (as per standard Kaggle CLI setup).
+
+---
+
+*Created for the Pencil Physics Mechanical Constraint Test.*
+
+---
+
+<<<<<<< HEAD
 #### Tab 1: The Silent Background Worker
 This tab runs the headless scraper loop, silently pulling real scores from Kaggle every minute.
 ```sh
@@ -157,3 +78,5 @@ cd ~/kaggle-cli
 source venv/bin/activate
 ./auto_sync.sh
 
+=======
+>>>>>>> be43094 (Update README with system documentation)
