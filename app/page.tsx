@@ -81,10 +81,10 @@ export default async function LeaderboardPage() {
       margin: 0
     }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 500, color: '#ffffff', marginBottom: '8px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: 500, color: '#ffffff', margin: '0 0 8px 0' }}>
           Pencil Physics: Mechanical Constraint Benchmark
         </h1>
-        <p style={{ color: '#969696', fontSize: '14px', marginBottom: '32px' }}>
+        <p style={{ color: '#969696', fontSize: '14px', margin: '0 0 32px 0' }}>
           Evaluating state-of-the-art Large Language Models on their spatial reasoning, kinetic consistency, and mechanical logic.
         </p>
 
@@ -143,6 +143,7 @@ export default async function LeaderboardPage() {
                         backgroundColor: barColor, 
                         height: '100%', 
                         borderRadius: '2px',
+                        transition: 'width 0.4s ease-in-out',
                         opacity: meta.status === 'error' ? 0.3 : 1
                       }} 
                     />
