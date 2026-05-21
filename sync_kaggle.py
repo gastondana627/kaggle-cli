@@ -3,13 +3,19 @@ import json
 import re
 from datetime import datetime
 from playwright.sync_api import sync_playwright
-from run_eval import ALL_MODELS
 
 URL = "https://www.kaggle.com/benchmarks/tasks/gastondana/pencil-physics-mechanical-constraint-test"
 RESULTS_DIR = "./benchmark-results"
 
 def clean_string(s):
     return "".join(c for c in s.lower() if c.isalnum())
+
+def load_models_config():
+    config_path = "models_config.json"
+    if os.path.exists(config_path):
+        with open(config_path, "r") as f:
+            return json.load(f).get("models", {})
+    return {}
 
 def update_telemetry_calendar(model_name, score, cost):
     # This saves it directly to the root of your kaggle-cli folder
@@ -45,6 +51,11 @@ def update_telemetry_calendar(model_name, score, cost):
 
 
 def sync_cloud_runs():
+    models_config = load_models_config()
+    if not models_config:
+        print("❌ Error: models_config.json not found or empty.")
+        return
+
     print("🤖 Booting HEADLESS browser to hack the pagination dropdown...")
     os.makedirs(RESULTS_DIR, exist_ok=True)
     
@@ -107,20 +118,22 @@ def sync_cloud_runs():
         browser.close()
 
     print("\n🔍 Analyzing page data...")
-    for master_name in ALL_MODELS.keys():
+    for master_name in models_config.keys():
         escaped_name = re.escape(master_name)
         pattern = f"{escaped_name}[^0-9]{{0,50}}?(0\\.[0-9]+)"
         match = re.search(pattern, all_text, re.IGNORECASE)
         if match:
             extracted_results[master_name] = float(match.group(1))
+        else:
+            print(f"⚠️ Missing from Kaggle Leaderboard: {master_name}")
 
     if not extracted_results:
-        print("❌ Automation Failure.")
+        print("❌ Automation Failure. No models extracted.")
         return
 
     synced_count = 0
     for matched_master, score in extracted_results.items():
-        filename = ALL_MODELS[matched_master]
+        filename = models_config[matched_master]
         target_file = os.path.join(RESULTS_DIR, filename)
         
         # Save standard run file
@@ -128,7 +141,6 @@ def sync_cloud_runs():
             json.dump({"model": matched_master, "score": float(score), "status": "success"}, f, indent=2)
             
         # UPDATE CALENDAR LEDGER
-        # (Using a rough $3.00 if it's DeepSeek-R1, otherwise $0.00 until we calculate averages)
         cost = 3.00 if matched_master == "DeepSeek-R1" else 0.00
         update_telemetry_calendar(matched_master, float(score), cost)
         
