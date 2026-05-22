@@ -92,3 +92,9 @@ model-performance-analysis/
 pencil-physics-dashboard/
 pencil-physics-test/
 run_terminal_test.sh
+node_modules/
+.next/
+venv/
+telemetry/raw_data/
+telemetry/assertions.json
+__pycache__/
