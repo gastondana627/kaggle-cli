@@ -114,7 +114,8 @@ export default function DashboardClient({ initialModels = [] }: { initialModels?
   const [clashPosition, setClashPosition] = useState(50);
   const [hoveredModel, setHoveredModel] = useState<string | null>(null);
   
-  const data = [...parsedTelemetryData, ...initialModels];
+  // STRICT MODE: Only use the live telemetry dataset, ignore legacy hardcoded props
+  const data = [...parsedTelemetryData];
 
   const uniqueModels = Array.from(data.reduce((map, m) => {
     if (!map.has(m.name) || m.score > map.get(m.name)!.score) map.set(m.name, m);
