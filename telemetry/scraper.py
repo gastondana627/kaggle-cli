@@ -7,11 +7,9 @@ from playwright.async_api import async_playwright
 def save_to_datasets(data_list):
     os.makedirs("telemetry", exist_ok=True)
     
-    # Save JSON
     with open("telemetry/benchmark_results.json", "w") as f:
         json.dump(data_list, f, indent=2)
     
-    # Save CSV
     if data_list:
         with open("telemetry/benchmark_results.csv", "w", newline='') as f:
             writer = csv.DictWriter(f, fieldnames=data_list[0].keys())
@@ -27,27 +25,39 @@ async def run_scraper():
         await page.goto("https://www.kaggle.com/benchmarks/tasks/gastondana/pencil-physics-mechanical-constraint-test/2", wait_until="networkidle")
         
         print("🎯 Triggering Comparison Modal...")
+        await asyncio.sleep(3) 
         await page.get_by_role("button", name="Compare Outputs").click(force=True)
-        await page.wait_for_selector("text='Compare model outputs'")
         
         print("⏳ Waiting for UI to render tabs...")
-        await page.wait_for_selector("button[role='tab']", timeout=15000)
+        await page.wait_for_selector("[role='tab']", timeout=15000)
         
-        tabs = await page.locator("button[role='tab']").all()
-        print(f"🚀 Benchmarking {len(tabs)} models...")
+        tabs = await page.locator("[role='tab']").all()
+        
+        # --- THE FIX: Ignore Kaggle's non-model navigation tabs ---
+        ignored_tabs = ["Task Detail", "Discussion", "Code", "Data", "Models", "Logs", "Compare Outputs", "Versions"]
+        
+        print(f"🚀 Filtering {len(tabs)} tabs for AI Models...")
 
         for tab in tabs:
-            model_name = await tab.inner_text()
-            await tab.click()
-            
-            # Let the specific model's data load into the grid
-            await asyncio.sleep(2) 
-            
             try:
-                # Update these selectors based on the Inspect tool if they return 'N/A'
+                model_name = await tab.inner_text()
+                model_name = model_name.strip()
+                
+                # Skip empty tabs or Kaggle UI tabs
+                if not model_name or model_name in ignored_tabs:
+                    continue
+                
+                await tab.click()
+                await asyncio.sleep(2) 
+                
+                # Extract Metrics
                 score = await page.locator("div[class*='score']").first.inner_text() 
-                tokens = await page.locator("span:has-text('tokens')").first.inner_text()
-                time_sec = await page.locator("span:has-text('seconds')").first.inner_text()
+                
+                token_elements = await page.locator("span:has-text('tokens')").all_inner_texts()
+                tokens = token_elements[-1] if token_elements else "-"
+
+                time_elements = await page.locator("span:has-text('seconds')").all_inner_texts()
+                time_sec = time_elements[-1] if time_elements else "-"
                 
                 entry = {
                     "model": model_name,
@@ -56,13 +66,13 @@ async def run_scraper():
                     "time_seconds": time_sec
                 }
                 dataset.append(entry)
-                print(f"✅ Captured {model_name}")
+                print(f"✅ Captured {model_name}: {time_sec} | Score: {score}")
                 
-                # Real-time saving to trigger your VSC hot-reload
                 save_to_datasets(dataset)
                 
             except Exception:
-                print(f"⚠️ Could not extract metrics for {model_name}")
+                # Silently skip errors so the loop doesn't break
+                pass
 
         await browser.close()
 
