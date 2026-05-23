@@ -1,100 +1,44 @@
-# Byte-compiled / optimized / DLL files
+# ==========================================
+# Python & Environment
+# ==========================================
+venv/
 __pycache__/
 *.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-kaggle
-kagglesdk
-!*/kaggle/
-!*/kagglesdk/
-lib/
-lib64/
-parts/
-sdist/
-var/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*,cover
-.hypothesis/
-venv/
+*.pyo
 .python-version
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-target/
-
-#Ipython Notebook
-.ipynb_checkpoints
-
-# Rider/IntelliJ
-.idea/
-
-# Gemini
-.gemini/
-
-# Claude Code
-.claude/
-.claude/settings.local.json
-
-# Kagent
-.kagent-context/**
+.venv/
+env/
 
 # ==========================================
-# Custom Telemetry & Pencil Physics Workspace
+# Browser & Data (The "Bloat")
 # ==========================================
-venv/
-benchmark-results/
-.run.json
-*.json
-*.png
-model-performance-analysis/
-pencil-physics-dashboard/
-pencil-physics-test/
-run_terminal_test.sh
-node_modules/
-.next/
-venv/
+browser_context/
 telemetry/raw_data/
 telemetry/assertions.json
-__pycache__/
+
+# ==========================================
+# Next.js / Node / Web
+# ==========================================
+node_modules/
+.next/
+dist/
+build/
+*.log
+.env.local
+
+# ==========================================
+# IDE & System
+# ==========================================
+.idea/
+.DS_Store
+.gemini/
+.claude/
+.kagent-context/
+
+# ==========================================
+# Project Specific
+# ==========================================
+benchmark-results/
+.run.json
+pencil-physics-dashboard/
+pencil-physics-test/

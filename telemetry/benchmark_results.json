@@ -1,0 +1,9 @@
+[
+  { "model": "gpt-oss-120b", "score": "0.99", "tokens": "1204", "time_seconds": "4.2" },
+  { "model": "DeepSeek-R1", "score": "0.86", "tokens": "1180", "time_seconds": "3.9" },
+  { "model": "Claude Opus 4.5", "score": "0.79", "tokens": "1300", "time_seconds": "5.1" },
+  { "model": "Gemma 4 26B A4B", "score": "0.72", "tokens": "950", "time_seconds": "2.8" },
+  { "model": "Claude Sonnet 4.5", "score": "0.60", "tokens": "1050", "time_seconds": "3.2" },
+  { "model": "GPT-5.4", "score": "0.26", "tokens": "890", "time_seconds": "2.1" },
+  { "model": "Claude Opus 4.1", "score": "Error", "tokens": "-", "time_seconds": "-" }
+]

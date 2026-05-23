@@ -1,0 +1,12 @@
+{"timestamp": 1779565009.937666, "raw": "Model\nResult"}
+{"timestamp": 1779565009.940782, "raw": "Claude Opus 4.1\n\nerror\nERROR\nopen_in_new\nmore_horiz"}
+{"timestamp": 1779565009.95227, "raw": "Claude Sonnet 4\n\nerror\nERROR\nopen_in_new\nmore_horiz"}
+{"timestamp": 1779565009.9555001, "raw": "gpt-oss-120b\n\n0.99\nmore_horiz"}
+{"timestamp": 1779565009.9590678, "raw": "DeepSeek-R1\n\n0.86\nmore_horiz"}
+{"timestamp": 1779565009.960969, "raw": "Claude Opus 4.5\n\n0.79\nmore_horiz"}
+{"timestamp": 1779565323.469911, "model": "Model", "raw": "Model\nResult"}
+{"timestamp": 1779565323.471775, "model": "Claude Opus 4.1", "raw": "Claude Opus 4.1\n\nerror\nERROR\nopen_in_new\nmore_horiz"}
+{"timestamp": 1779565323.475159, "model": "Claude Sonnet 4", "raw": "Claude Sonnet 4\n\nerror\nERROR\nopen_in_new\nmore_horiz"}
+{"timestamp": 1779565323.476614, "model": "gpt-oss-120b", "raw": "gpt-oss-120b\n\n0.99\nmore_horiz"}
+{"timestamp": 1779565323.477841, "model": "DeepSeek-R1", "raw": "DeepSeek-R1\n\n0.86\nmore_horiz"}
+{"timestamp": 1779565323.478959, "model": "Claude Opus 4.5", "raw": "Claude Opus 4.5\n\n0.79\nmore_horiz"}

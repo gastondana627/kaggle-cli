@@ -1,0 +1,8 @@
+{
+  "benchmarkTask": "pencil-physics-mechanical-constraint-test",
+  "modelName": "Claude Sonnet 4.5",
+  "predictions": [
+    {"constraintId": 1, "resolved": true, "errorMargin": 0.02},
+    {"constraintId": 2, "resolved": true, "errorMargin": 0.05}
+  ]
+}
