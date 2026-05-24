@@ -87,9 +87,17 @@ const MODEL_COST_DB: Record<string, number> = {
   "gpt-oss-120b": 3.00
 };
 
+// FIX: Normalize strings to ensure proper matching between raw Kaggle IDs and clean DB names
+const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
 const getModelCost = (modelName: string) => {
-  if (MODEL_COST_DB[modelName]) return MODEL_COST_DB[modelName];
-  const matchedKey = Object.keys(MODEL_COST_DB).find(key => modelName.toLowerCase().includes(key.toLowerCase()));
+  const normalizedModel = normalize(modelName);
+  
+  // Sort by length descending so "gpt-5.4-mini" is checked BEFORE "gpt-5.4"
+  const sortedKeys = Object.keys(MODEL_COST_DB).sort((a, b) => b.length - a.length);
+  
+  const matchedKey = sortedKeys.find(key => normalizedModel.includes(normalize(key)));
+  
   return matchedKey ? MODEL_COST_DB[matchedKey] : 2.50;
 };
 
