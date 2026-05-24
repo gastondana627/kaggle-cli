@@ -45,15 +45,12 @@ async def run_scraper():
             if not name_raw: 
                 continue
             
-            # The button text looks like: "claude-opus-4-6-default \n Anthropic \n 0.59"
-            # Let's split it into lines and clean it up
             lines = [line.strip() for line in name_raw.split('\n') if line.strip()]
             clean_name = lines[0]
             
             if clean_name in ignored_tabs or clean_name in seen_names:
                 continue
                 
-            # Grab the score directly from the bottom of the button text!
             score_val = lines[-1] if len(lines) > 1 else "-"
             if "error" in score_val.lower():
                 score_val = "Error"
@@ -68,34 +65,31 @@ async def run_scraper():
                 await tab.scroll_into_view_if_needed()
                 await tab.click(force=True)
                 
-                # Wait exactly 2.5 seconds for the grid to render
+                # Wait for the specific container to update its content
+                # This ensures we are not reading stale data
                 await asyncio.sleep(2.5) 
                 
                 tokens_val = "-"
                 time_sec = "-"
                 
                 try:
-                    # FIX: Filter for ONLY the currently visible summary panel
-                    summary_loc = page.locator("text=/output tokens/i").filter(state="visible").last
+                    # THE FIX: Target ONLY the modal/comparison content container
+                    # This prevents grabbing text from the main page body
+                    modal_content = page.locator("div[role='dialog'], div[class*='Modal']")
+                    content_text = await modal_content.inner_text()
                     
-                    # Bumped timeout slightly to 2s to allow the React state to swap
-                    await summary_loc.wait_for(timeout=2000) 
-                    summary_text = await summary_loc.inner_text()
-                    
-                    # REGEX PARSING:
-                    # Look for the number right before "output tokens"
-                    token_match = re.search(r'([0-9]+)\s*output tokens', summary_text)
+                    # REGEX: Find numbers (including commas) right before "output tokens"
+                    token_match = re.search(r'([0-9,]+)\s*output tokens', content_text, re.IGNORECASE)
                     if token_match:
-                        tokens_val = token_match.group(1)
+                        tokens_val = token_match.group(1).replace(',', '')
                         
-                    # Look for the number right before the "s" at the end (e.g. 436.45s)
-                    time_match = re.search(r'([0-9.]+)\s*s\b', summary_text)
+                    # REGEX: Find numbers right before "s" (e.g., 436.45s)
+                    time_match = re.search(r'([0-9.]+)\s*s\b', content_text, re.IGNORECASE)
                     if time_match:
                         time_sec = time_match.group(1)
                         
-                except Exception:
-                    # If the string isn't found, it gracefully fails and leaves them as "-"
-                    pass
+                except Exception as e:
+                    print(f"⚠️ Regex parsing error on {clean_name}: {e}")
                 
                 entry = {
                     "model": clean_name,
@@ -106,7 +100,7 @@ async def run_scraper():
                 dataset.append(entry)
                 print(f"✅ Captured {clean_name} | Score: {score_val} | Tokens: {tokens_val} | Time: {time_sec}s")
                 
-                # Save immediately so Next.js hot-reloads instantly
+                # Save immediately to update the local dashboard hot-reload
                 save_to_datasets(dataset)
                 
             except Exception as e:

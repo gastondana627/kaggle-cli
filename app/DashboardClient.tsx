@@ -13,6 +13,7 @@ interface ModelData {
   time_seconds?: string;
   assertions?: boolean[];
   cost?: number;
+  
 }
 
 const parsedTelemetryData: ModelData[] = (telemetryDataRaw as any[]).map(raw => {
