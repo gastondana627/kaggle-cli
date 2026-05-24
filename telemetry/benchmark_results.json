@@ -7,6 +7,13 @@
     "time_seconds": "-"
   },
   {
+    "model": "gemini-3.5-flash",
+    "score": "0.32",
+    "input_tokens": "216",
+    "output_tokens": "1",
+    "time_seconds": "3.97"
+  },
+  {
     "model": "claude-sonnet-4-20250514",
     "score": "0.26",
     "input_tokens": "1060741",

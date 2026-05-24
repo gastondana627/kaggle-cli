@@ -1,5 +1,6 @@
 model,score,input_tokens,output_tokens,time_seconds
 claude-opus-4-1-20250805,Error,-,-,-
+gemini-3.5-flash,0.32,216,1,3.97
 claude-sonnet-4-20250514,0.26,1060741,13407,167.26
 claude-opus-4-6-default,0.59,825836,8991,238.76
 deepseek-v3.2,0.26,202,35,2.80
