@@ -9,24 +9,25 @@ interface ModelData {
   score: number;
   status: string;
   label: string;
-  tokens?: string;
+  input_tokens?: string;
+  output_tokens?: string;
   time_seconds?: string;
   assertions?: boolean[];
   cost?: number;
-  
 }
 
 const parsedTelemetryData: ModelData[] = (telemetryDataRaw as any[]).map(raw => {
   const rawScore = String(raw.score || '0').trim();
 
-  // FIX: Catch Kaggle "Error" states and route them properly
+  // Catch Kaggle "Error" states and route them properly
   if (rawScore.toLowerCase().includes('error')) {
     return {
       name: raw.model || "Unknown Model",
       score: 0,
       status: 'error',
       label: 'Error',
-      tokens: raw.tokens || "-",
+      input_tokens: raw.input_tokens || "-",
+      output_tokens: raw.output_tokens || "-",
       time_seconds: raw.time_seconds || "-"
     };
   }
@@ -39,7 +40,8 @@ const parsedTelemetryData: ModelData[] = (telemetryDataRaw as any[]).map(raw => 
     score: numericScore,
     status: 'success', 
     label: numericScore.toFixed(2),
-    tokens: raw.tokens || "-",
+    input_tokens: raw.input_tokens || "-",
+    output_tokens: raw.output_tokens || "-",
     time_seconds: raw.time_seconds || "-"
   };
 });
@@ -124,11 +126,8 @@ export default function DashboardClient({ initialModels = [] }: { initialModels?
   }, new Map<string, ModelData>()).values());
 
   const sortedModels = [...uniqueModels].sort((a, b) => {
-    // 1. Force Errors to the absolute bottom
     if (a.status === 'error' && b.status !== 'error') return 1;
     if (b.status === 'error' && a.status !== 'error') return -1;
-    
-    // 2. Sort strictly by score (High to Low)
     return b.score - a.score; 
   });
 
@@ -438,7 +437,8 @@ export default function DashboardClient({ initialModels = [] }: { initialModels?
                     <tr className="text-[10px] font-bold text-gray-500 uppercase tracking-widest border-b border-[#262626]">
                       <th className="pb-3 px-5 font-bold">Rank</th>
                       <th className="pb-3 px-5 font-bold">Model Name</th>
-                      <th className="pb-3 px-5 font-bold">Tokens</th>
+                      <th className="pb-3 px-5 font-bold">Input Tokens</th>
+                      <th className="pb-3 px-5 font-bold">Output Tokens</th>
                       <th className="pb-3 px-5 font-bold">Time (s)</th>
                       <th className="pb-3 px-5 font-bold text-right text-[#e9c400]">Score</th>
                     </tr>
@@ -451,7 +451,8 @@ export default function DashboardClient({ initialModels = [] }: { initialModels?
                           <div className="font-medium text-white">{model.name}</div>
                           <AssertionGrid assertions={model.assertions} />
                         </td>
-                        <td className="py-4 px-5 font-mono text-gray-400">{model.tokens}</td>
+                        <td className="py-4 px-5 font-mono text-gray-400">{model.input_tokens}</td>
+                        <td className="py-4 px-5 font-mono text-gray-400">{model.output_tokens}</td>
                         <td className="py-4 px-5 font-mono text-gray-400">{model.time_seconds}</td>
                         <td className="py-4 px-5 text-right font-mono font-bold text-[#e9c400]">{model.label}</td>
                       </tr>

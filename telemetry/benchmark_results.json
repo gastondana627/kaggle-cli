@@ -1,200 +1,233 @@
 [
   {
-    "model": "claude-sonnet-4-20250514",
-    "score": "0.26",
-    "tokens": "-",
+    "model": "claude-opus-4-1-20250805",
+    "score": "Error",
+    "input_tokens": "-",
+    "output_tokens": "-",
     "time_seconds": "-"
   },
   {
-    "model": "claude-opus-4-1-20250805",
-    "score": "Error",
-    "tokens": "-",
-    "time_seconds": "-"
+    "model": "claude-sonnet-4-20250514",
+    "score": "0.26",
+    "input_tokens": "1060741",
+    "output_tokens": "13407",
+    "time_seconds": "167.26"
   },
   {
     "model": "claude-opus-4-6-default",
     "score": "0.59",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "825836",
+    "output_tokens": "8991",
+    "time_seconds": "238.76"
   },
   {
     "model": "deepseek-v3.2",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "202",
+    "output_tokens": "35",
+    "time_seconds": "2.80"
   },
   {
     "model": "gemini-2.5-pro",
     "score": "0.46",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "223",
+    "output_tokens": "1",
+    "time_seconds": "5.21"
   },
   {
     "model": "gemini-2.5-flash",
     "score": "0.35",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "224",
+    "output_tokens": "1",
+    "time_seconds": "1.31"
   },
   {
     "model": "deepseek-r1-0528",
     "score": "0.86",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "74",
+    "output_tokens": "2622",
+    "time_seconds": "20.68"
   },
   {
     "model": "claude-sonnet-4-5-20250929",
     "score": "0.60",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "1285688",
+    "output_tokens": "18115",
+    "time_seconds": "248.30"
   },
   {
     "model": "gpt-5.4-2026-03-05",
     "score": "0.26",
-    "tokens": "-",
+    "input_tokens": "225",
+    "output_tokens": "4",
     "time_seconds": "-"
   },
   {
     "model": "claude-opus-4-5-20251101",
     "score": "0.79",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "891684",
+    "output_tokens": "10112",
+    "time_seconds": "160.19"
   },
   {
     "model": "gpt-oss-20b",
     "score": "0.24",
-    "tokens": "-",
+    "input_tokens": "253",
+    "output_tokens": "245",
     "time_seconds": "-"
   },
   {
     "model": "gpt-oss-120b",
     "score": "0.99",
-    "tokens": "-",
+    "input_tokens": "271",
+    "output_tokens": "125",
     "time_seconds": "-"
   },
   {
     "model": "gemini-2.0-flash-001",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "414479",
+    "output_tokens": "860",
+    "time_seconds": "42.01"
   },
   {
     "model": "gemini-2.0-flash-lite-001",
     "score": "0.67",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "380659",
+    "output_tokens": "200",
+    "time_seconds": "39.64"
   },
   {
     "model": "qwen3-235b-a22b-instruct-2507",
     "score": "0.33",
-    "tokens": "-",
+    "input_tokens": "249",
+    "output_tokens": "2",
     "time_seconds": "-"
   },
   {
     "model": "qwen3-next-80b-a3b-instruct",
     "score": "0.26",
-    "tokens": "-",
+    "input_tokens": "269",
+    "output_tokens": "104",
     "time_seconds": "-"
   },
   {
     "model": "qwen3-coder-480b-a35b-instruct",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "81",
+    "output_tokens": "126",
+    "time_seconds": "1.02"
   },
   {
     "model": "deepseek-v3.1",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "220",
+    "output_tokens": "70",
+    "time_seconds": "1.74"
   },
   {
     "model": "gemma-4-31b-it",
     "score": "0.56",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "380834",
+    "output_tokens": "102",
+    "time_seconds": "811.18"
   },
   {
     "model": "gemma-4-26b-a4b-it",
     "score": "0.72",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "386006",
+    "output_tokens": "102",
+    "time_seconds": "977.43"
   },
   {
     "model": "gemini-3.1-flash-lite-preview",
     "score": "0.67",
-    "tokens": "-",
+    "input_tokens": "172",
+    "output_tokens": "24",
     "time_seconds": "-"
   },
   {
     "model": "gemini-3.1-pro-preview",
     "score": "0.30",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "223",
+    "output_tokens": "2",
+    "time_seconds": "3.75"
   },
   {
     "model": "gpt-5.4-nano-2026-03-17",
     "score": "0.26",
-    "tokens": "-",
+    "input_tokens": "226",
+    "output_tokens": "4",
     "time_seconds": "-"
   },
   {
     "model": "gpt-5.4-mini-2026-03-17",
     "score": "0.26",
-    "tokens": "-",
+    "input_tokens": "226",
+    "output_tokens": "4",
     "time_seconds": "-"
   },
   {
     "model": "grok-4.20-0309-non-reasoning",
     "score": "0.42",
-    "tokens": "-",
+    "input_tokens": "551",
+    "output_tokens": "77",
     "time_seconds": "-"
   },
   {
     "model": "claude-opus-4-7-default",
     "score": "0.33",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "573431",
+    "output_tokens": "600",
+    "time_seconds": "122.76"
   },
   {
     "model": "claude-sonnet-4-6-default",
     "score": "0.53",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "695796",
+    "output_tokens": "6373",
+    "time_seconds": "166.16"
   },
   {
     "model": "claude-haiku-4-5-20251001",
     "score": "0.31",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "571147",
+    "output_tokens": "2465",
+    "time_seconds": "54.53"
   },
   {
     "model": "glm-5",
     "score": "0.33",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "247",
+    "output_tokens": "1314",
+    "time_seconds": "13.78"
   },
   {
     "model": "gpt-5.5-2026-04-23",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "228",
+    "output_tokens": "522",
+    "time_seconds": "10.35"
   },
   {
     "model": "grok-4.20-0309-reasoning",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "2198",
+    "output_tokens": "98",
+    "time_seconds": "4.47"
   },
   {
     "model": "qwen3-next-80b-a3b-thinking",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "253",
+    "output_tokens": "1287",
+    "time_seconds": "7.56"
   },
   {
     "model": "gemini-3-flash-preview",
     "score": "0.26",
-    "tokens": "-",
-    "time_seconds": "-"
+    "input_tokens": "223",
+    "output_tokens": "1",
+    "time_seconds": "3.41"
   }
 ]
