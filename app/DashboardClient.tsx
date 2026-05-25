@@ -9,26 +9,27 @@ interface ModelData {
   score: number;
   status: string;
   label: string;
-  input_tokens?: string;
-  output_tokens?: string;
-  time_seconds?: string;
+  input_tokens?: string | number;
+  output_tokens?: string | number;
+  time_seconds?: string | number;
   assertions?: boolean[];
   cost?: number;
 }
 
 const parsedTelemetryData: ModelData[] = (telemetryDataRaw as any[]).map(raw => {
   const rawScore = String(raw.score || '0').trim();
+  const safeModelName = raw.model || raw.modelName || "Unknown Model";
 
   // Catch Kaggle "Error" states and route them properly
   if (rawScore.toLowerCase().includes('error')) {
     return {
-      name: raw.model || "Unknown Model",
+      name: safeModelName,
       score: 0,
       status: 'error',
       label: 'Error',
-      input_tokens: raw.input_tokens || "-",
-      output_tokens: raw.output_tokens || "-",
-      time_seconds: raw.time_seconds || "-"
+      input_tokens: raw.input_tokens || "-", 
+      output_tokens: raw.output_tokens || "-", 
+      time_seconds: raw.time_seconds || "-" 
     };
   }
 
@@ -36,13 +37,13 @@ const parsedTelemetryData: ModelData[] = (telemetryDataRaw as any[]).map(raw => 
   const numericScore = parseFloat(rawScore.replace(/[^0-9.]/g, '')) || 0;
   
   return {
-    name: raw.model || "Unknown Model",
+    name: safeModelName,
     score: numericScore,
     status: 'success', 
     label: numericScore.toFixed(2),
-    input_tokens: raw.input_tokens || "-",
-    output_tokens: raw.output_tokens || "-",
-    time_seconds: raw.time_seconds || "-"
+    input_tokens: raw.input_tokens || "-", 
+    output_tokens: raw.output_tokens || "-", 
+    time_seconds: raw.time_seconds || "-" 
   };
 });
 
@@ -74,17 +75,22 @@ const MODEL_COST_DB: Record<string, number> = {
   "Gemini 2.0 Flash": 0.30,
   "Gemini 2.5 Flash": 0.50,
   "Gemini 2.5 Pro": 5.00,
-  "Gemini 3.1 Flash-Lite Preview": 0.20,
+  "Gemini 3.1 Flash-Lite Preview": 0.2555,
   "Gemini 3.1 Pro Preview": 7.00,
   "Gemini 3 Flash Preview": 0.60,
+  "Gemini 3.5 Flash": 1.8215,
   "Gemma 4 26B A4B": 0.80,
   "Gemma 4 31B": 1.00,
   "GLM-5": 2.00,
-  "GPT-5.4 mini": 0.50,
-  "GPT-5.4 nano": 0.20,
-  "GPT-5.4": 10.00,
+  "GPT-5.4 mini": 0.1987,
+  "GPT-5.4 nano": 0.0621,
+  "GPT-5.4": 0.4755,
   "GPT-5.5": 15.00,
-  "gpt-oss-120b": 3.00
+  "gpt-oss-120b": 0.0983,
+  "gpt-oss-20b": 0.0215,
+  "qwen3-235b": 0.2203,
+  "qwen3-next-80b": 0.1615,
+  "grok-4.20-0309-non-reasoning": 0.2538
 };
 
 // FIX: Normalize strings to ensure proper matching between raw Kaggle IDs and clean DB names
@@ -448,23 +454,42 @@ export default function DashboardClient({ initialModels = [] }: { initialModels?
                       <th className="pb-3 px-5 font-bold">Input Tokens</th>
                       <th className="pb-3 px-5 font-bold">Output Tokens</th>
                       <th className="pb-3 px-5 font-bold">Time (s)</th>
+                      <th className="pb-3 px-5 font-bold">Est. Cost</th>
                       <th className="pb-3 px-5 font-bold text-right text-[#e9c400]">Score</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#262626]/50">
-                    {sortedModels.map((model, i) => (
-                      <tr key={`${model.name}-${i}`} className={`hover:bg-neutral-800/30 transition-colors ${i < 3 ? 'bg-neutral-900/10' : ''}`}>
-                        <td className="py-4 px-5 text-gray-400">{i + 1}</td>
-                        <td className="py-4 px-5">
-                          <div className="font-medium text-white">{model.name}</div>
-                          <AssertionGrid assertions={model.assertions} />
-                        </td>
-                        <td className="py-4 px-5 font-mono text-gray-400">{model.input_tokens}</td>
-                        <td className="py-4 px-5 font-mono text-gray-400">{model.output_tokens}</td>
-                        <td className="py-4 px-5 font-mono text-gray-400">{model.time_seconds}</td>
-                        <td className="py-4 px-5 text-right font-mono font-bold text-[#e9c400]">{model.label}</td>
-                      </tr>
-                    ))}
+                    {sortedModels.map((model, i) => {
+                      // Dynamically calculate the run cost if tokens are present
+                      const inTokens = parseInt(String(model.input_tokens).replace(/[^0-9]/g, '')) || 0;
+                      const outTokens = parseInt(String(model.output_tokens).replace(/[^0-9]/g, '')) || 0;
+                      const totalTokens = inTokens + outTokens;
+                      const ratePer1M = getModelCost(model.name);
+                      const runCost = totalTokens > 0 ? ((totalTokens / 1000000) * ratePer1M).toFixed(4) : "-";
+
+                      return (
+                        <tr key={`${model.name}-${i}`} className={`hover:bg-neutral-800/30 transition-colors ${i < 3 ? 'bg-neutral-900/10' : ''}`}>
+                          <td className="py-4 px-5 text-gray-400">{i + 1}</td>
+                          <td className="py-4 px-5">
+                            <div className="font-medium text-white">{model.name}</div>
+                            <AssertionGrid assertions={model.assertions} />
+                          </td>
+                          <td className="py-4 px-5 font-mono text-gray-400">
+                            {model.input_tokens === '-' ? <span className="text-gray-600">N/A</span> : model.input_tokens}
+                          </td>
+                          <td className="py-4 px-5 font-mono text-gray-400">
+                            {model.output_tokens === '-' ? <span className="text-gray-600">N/A</span> : model.output_tokens}
+                          </td>
+                          <td className="py-4 px-5 font-mono text-gray-400">
+                            {model.time_seconds === '-' ? <span className="text-gray-600">N/A</span> : model.time_seconds}
+                          </td>
+                          <td className="py-4 px-5 font-mono text-gray-400">
+                            {runCost !== "-" ? `$${runCost}` : <span className="text-gray-600">N/A</span>}
+                          </td>
+                          <td className="py-4 px-5 text-right font-mono font-bold text-[#e9c400]">{model.label}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

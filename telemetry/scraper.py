@@ -16,6 +16,48 @@ def save_to_datasets(data_list):
             writer.writerows(data_list)
     print(f"📊 Dataset updated: {len(data_list)} models collected.")
 
+async def extract_model_telemetry(page, model_name):
+    input_val, output_val, time_sec = "-", "-", "-"
+    
+    # Python-based Polling: Check the screen 40 times (20 seconds max)
+    for _ in range(40):
+        # 1. Grab raw text using innerText to preserve line breaks and spacing
+        raw_text = await page.evaluate("document.body.innerText")
+        
+        # 2. Isolate the text for the current model
+        parts = raw_text.split(model_name)
+        if len(parts) > 1:
+            target_text = parts[-1]
+            
+            # Look for lines containing "input tokens"
+            lines = [l.strip() for l in target_text.split('\n') if "input" in l.lower()]
+            if lines:
+                # The detailed log line is always the longest
+                best_line = max(lines, key=len)
+                
+                in_m = re.search(r'([0-9,]+)\s*input', best_line, re.IGNORECASE)
+                out_m = re.search(r'([0-9,]+)\s*output', best_line, re.IGNORECASE)
+                t_m = re.search(r'([0-9.]+)\s*s\b', best_line, re.IGNORECASE)
+                
+                if in_m:
+                    current_input_int = int(in_m.group(1).replace(',', ''))
+                    
+                    # Store the parsed values
+                    input_val = str(current_input_int)
+                    if out_m: output_val = out_m.group(1).replace(',', '')
+                    if t_m: time_sec = t_m.group(1)
+                    
+                    # 3. THE TRIGGER: If tokens > 10,000, we know the heavy payload loaded!
+                    # Break the loop immediately so we don't waste time waiting.
+                    if current_input_int > 10000:
+                        break
+                        
+        # If we haven't found the big payload yet, wait 0.5s and check the screen again
+        await page.wait_for_timeout(500)
+        
+    return {"input": input_val, "output": output_val, "time": time_sec}
+
+
 async def run_scraper():
     dataset = []
     async with async_playwright() as p:
@@ -32,7 +74,6 @@ async def run_scraper():
 
         print("🔍 Searching for model buttons...")
         
-        # Look for buttons that contain known AI prefixes
         tabs = await page.locator("button:has-text('GPT-'), button:has-text('Claude'), button:has-text('Gemini'), button:has-text('DeepSeek'), button:has-text('Qwen'), button:has-text('Gemma'), button:has-text('Grok'), button:has-text('GLM'), button:has-text('gpt-oss')").all()
 
         ignored_tabs = ["Task Detail", "Discussion", "Code", "Data", "Models", "Logs", "Compare Outputs", "Versions"]
@@ -42,19 +83,12 @@ async def run_scraper():
 
         for tab in tabs:
             name_raw = await tab.inner_text()
-            if not name_raw: 
-                continue
-            
+            if not name_raw: continue
             lines = [line.strip() for line in name_raw.split('\n') if line.strip()]
             clean_name = lines[0]
-            
-            if clean_name in ignored_tabs or clean_name in seen_names:
-                continue
-                
+            if clean_name in ignored_tabs or clean_name in seen_names: continue
             score_val = lines[-1] if len(lines) > 1 else "-"
-            if "error" in score_val.lower():
-                score_val = "Error"
-            
+            if "error" in score_val.lower(): score_val = "Error"
             unique_tabs.append((clean_name, score_val, tab))
             seen_names.add(clean_name)
 
@@ -65,50 +99,19 @@ async def run_scraper():
                 await tab.scroll_into_view_if_needed()
                 await tab.click(force=True)
                 
-                # Wait for the specific container to update its content
-                await asyncio.sleep(2.5) 
-                
-                input_val = "-"
-                output_val = "-"
-                time_sec = "-"
-                
-                try:
-                    # Target ONLY the modal/comparison content container
-                    modal_content = page.locator("div[role='dialog'], div[class*='Modal']").first
-                    content_text = await modal_content.inner_text()
-                    
-                    # THE FIX: Split the giant modal text by the model's name. 
-                    # The chunk of text immediately following the model's name contains ITS specific metrics.
-                    if clean_name in content_text:
-                        blocks = content_text.split(clean_name)
-                        target_text = blocks[-1] # Grab everything after the last mention of the model name
-                        
-                        input_match = re.search(r'([0-9,]+)\s*input tokens', target_text, re.IGNORECASE)
-                        if input_match:
-                            input_val = input_match.group(1).replace(',', '')
-
-                        output_match = re.search(r'([0-9,]+)\s*output tokens', target_text, re.IGNORECASE)
-                        if output_match:
-                            output_val = output_match.group(1).replace(',', '')
-                            
-                        time_match = re.search(r'([0-9.]+)\s*s\b', target_text, re.IGNORECASE)
-                        if time_match:
-                            time_sec = time_match.group(1)
-                            
-                except Exception as e:
-                    print(f"⚠️ Regex parsing error on {clean_name}: {e}")
+                # Hand over control to our custom Python polling extractor
+                telemetry = await extract_model_telemetry(page, clean_name)
                 
                 entry = {
                     "model": clean_name,
                     "score": score_val,
-                    "input_tokens": input_val,
-                    "output_tokens": output_val,
-                    "time_seconds": time_sec
+                    "input_tokens": telemetry["input"],
+                    "output_tokens": telemetry["output"],
+                    "time_seconds": telemetry["time"]
                 }
                 dataset.append(entry)
-                print(f"✅ Captured {clean_name} | Score: {score_val} | In: {input_val} | Out: {output_val} | Time: {time_sec}s")
+                print(f"✅ Captured {clean_name} | In: {telemetry['input']} | Out: {telemetry['output']} | Time: {telemetry['time']}s")
                 
-                # Save immediately to update the local dashboard hot-reload
                 save_to_datasets(dataset)
                 
             except Exception as e:

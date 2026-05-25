@@ -9,9 +9,9 @@
   {
     "model": "gemini-3.5-flash",
     "score": "0.32",
-    "input_tokens": "216",
-    "output_tokens": "1",
-    "time_seconds": "3.97"
+    "input_tokens": "363276",
+    "output_tokens": "100",
+    "time_seconds": "135.29"
   },
   {
     "model": "claude-sonnet-4-20250514",
@@ -30,30 +30,30 @@
   {
     "model": "deepseek-v3.2",
     "score": "0.26",
-    "input_tokens": "202",
-    "output_tokens": "35",
-    "time_seconds": "2.80"
+    "input_tokens": "495490",
+    "output_tokens": "2585",
+    "time_seconds": "266.38"
   },
   {
     "model": "gemini-2.5-pro",
     "score": "0.46",
-    "input_tokens": "223",
-    "output_tokens": "1",
-    "time_seconds": "5.21"
+    "input_tokens": "370439",
+    "output_tokens": "100",
+    "time_seconds": "436.45"
   },
   {
     "model": "gemini-2.5-flash",
     "score": "0.35",
-    "input_tokens": "224",
-    "output_tokens": "1",
-    "time_seconds": "1.31"
+    "input_tokens": "376267",
+    "output_tokens": "100",
+    "time_seconds": "79.08"
   },
   {
     "model": "deepseek-r1-0528",
     "score": "0.86",
-    "input_tokens": "74",
-    "output_tokens": "2622",
-    "time_seconds": "20.68"
+    "input_tokens": "1906620",
+    "output_tokens": "73130",
+    "time_seconds": "561.32"
   },
   {
     "model": "claude-sonnet-4-5-20250929",
@@ -65,9 +65,9 @@
   {
     "model": "gpt-5.4-2026-03-05",
     "score": "0.26",
-    "input_tokens": "225",
-    "output_tokens": "4",
-    "time_seconds": "-"
+    "input_tokens": "379378",
+    "output_tokens": "400",
+    "time_seconds": "77.50"
   },
   {
     "model": "claude-opus-4-5-20251101",
@@ -79,16 +79,16 @@
   {
     "model": "gpt-oss-20b",
     "score": "0.24",
-    "input_tokens": "253",
-    "output_tokens": "245",
-    "time_seconds": "-"
+    "input_tokens": "532552",
+    "output_tokens": "25415",
+    "time_seconds": "105.90"
   },
   {
     "model": "gpt-oss-120b",
     "score": "0.99",
-    "input_tokens": "271",
-    "output_tokens": "125",
-    "time_seconds": "-"
+    "input_tokens": "774558",
+    "output_tokens": "24308",
+    "time_seconds": "136.44"
   },
   {
     "model": "gemini-2.0-flash-001",
@@ -107,30 +107,30 @@
   {
     "model": "qwen3-235b-a22b-instruct-2507",
     "score": "0.33",
-    "input_tokens": "249",
-    "output_tokens": "2",
-    "time_seconds": "-"
+    "input_tokens": "424097",
+    "output_tokens": "200",
+    "time_seconds": "43.07"
   },
   {
     "model": "qwen3-next-80b-a3b-instruct",
     "score": "0.26",
-    "input_tokens": "269",
-    "output_tokens": "104",
-    "time_seconds": "-"
+    "input_tokens": "936313",
+    "output_tokens": "10500",
+    "time_seconds": "74.22"
   },
   {
     "model": "qwen3-coder-480b-a35b-instruct",
     "score": "0.26",
-    "input_tokens": "81",
-    "output_tokens": "126",
-    "time_seconds": "1.02"
+    "input_tokens": "1030342",
+    "output_tokens": "12483",
+    "time_seconds": "75.66"
   },
   {
     "model": "deepseek-v3.1",
     "score": "0.26",
-    "input_tokens": "220",
-    "output_tokens": "70",
-    "time_seconds": "1.74"
+    "input_tokens": "432763",
+    "output_tokens": "1480",
+    "time_seconds": "57.94"
   },
   {
     "model": "gemma-4-31b-it",
@@ -149,37 +149,37 @@
   {
     "model": "gemini-3.1-flash-lite-preview",
     "score": "0.67",
-    "input_tokens": "172",
-    "output_tokens": "24",
-    "time_seconds": "-"
+    "input_tokens": "469545",
+    "output_tokens": "2056",
+    "time_seconds": "93.36"
   },
   {
     "model": "gemini-3.1-pro-preview",
     "score": "0.30",
-    "input_tokens": "223",
-    "output_tokens": "2",
-    "time_seconds": "3.75"
+    "input_tokens": "376517",
+    "output_tokens": "200",
+    "time_seconds": "347.67"
   },
   {
     "model": "gpt-5.4-nano-2026-03-17",
     "score": "0.26",
-    "input_tokens": "226",
-    "output_tokens": "4",
-    "time_seconds": "-"
+    "input_tokens": "385569",
+    "output_tokens": "400",
+    "time_seconds": "70.17"
   },
   {
     "model": "gpt-5.4-mini-2026-03-17",
     "score": "0.26",
-    "input_tokens": "226",
-    "output_tokens": "4",
-    "time_seconds": "-"
+    "input_tokens": "386081",
+    "output_tokens": "412",
+    "time_seconds": "60.92"
   },
   {
     "model": "grok-4.20-0309-non-reasoning",
     "score": "0.42",
-    "input_tokens": "551",
-    "output_tokens": "77",
-    "time_seconds": "-"
+    "input_tokens": "476492",
+    "output_tokens": "994",
+    "time_seconds": "29.31"
   },
   {
     "model": "claude-opus-4-7-default",
@@ -205,36 +205,36 @@
   {
     "model": "glm-5",
     "score": "0.33",
-    "input_tokens": "247",
-    "output_tokens": "1314",
-    "time_seconds": "13.78"
+    "input_tokens": "801211",
+    "output_tokens": "111286",
+    "time_seconds": "1325.44"
   },
   {
     "model": "gpt-5.5-2026-04-23",
     "score": "0.26",
-    "input_tokens": "228",
-    "output_tokens": "522",
-    "time_seconds": "10.35"
+    "input_tokens": "389573",
+    "output_tokens": "5495",
+    "time_seconds": "170.04"
   },
   {
     "model": "grok-4.20-0309-reasoning",
     "score": "0.26",
-    "input_tokens": "2198",
-    "output_tokens": "98",
-    "time_seconds": "4.47"
+    "input_tokens": "2264926",
+    "output_tokens": "9792",
+    "time_seconds": "148.16"
   },
   {
     "model": "qwen3-next-80b-a3b-thinking",
     "score": "0.26",
-    "input_tokens": "253",
-    "output_tokens": "1287",
-    "time_seconds": "7.56"
+    "input_tokens": "426749",
+    "output_tokens": "78883",
+    "time_seconds": "521.45"
   },
   {
     "model": "gemini-3-flash-preview",
     "score": "0.26",
-    "input_tokens": "223",
-    "output_tokens": "1",
-    "time_seconds": "3.41"
+    "input_tokens": "2408573",
+    "output_tokens": "95625",
+    "time_seconds": "728.88"
   }
 ]

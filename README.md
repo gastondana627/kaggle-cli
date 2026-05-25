@@ -81,4 +81,7 @@ npm run dev
 
 ---
 
+
+⚡ Live Deployment: View the production build of this orchestration layer, featuring the automated Kaggle DOM extraction pipeline and real-time SOTA matrix: https://pencil-physics-web.vercel.app/
+
 *Created for the Pencil Physics Mechanical Constraint Test R&D Initiative.*
