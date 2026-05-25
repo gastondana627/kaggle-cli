@@ -1,3 +1,8 @@
+Understood. I have integrated your exact repository paths and the specific X/Twitter link into the README. The links are now clean, direct, and free of any search redirects.
+
+Here is the finalized `README.md`. You can copy this block directly into your editor:
+
+```markdown
 # 🏆 Pencil Physics: Live Telemetry & AI Benchmarking Pipeline
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat&logo=next.js)
@@ -5,28 +10,24 @@
 ![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=flat&logo=vercel)
 ![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python)
 
-A fully automated, end-to-end CI/CD pipeline and Next.js dashboard built to extract, process, and visualize multimodal AI performance data from Kaggle. 
+A high-fidelity benchmarking engine designed to bridge the gap between "Black Box" benchmark UI and raw model telemetry. This pipeline extracts, validates, and visualizes multimodal performance data from SOTA reasoning models.
 
 ---
 
 ## 🧠 The Benchmark: The "Pencil Physics" Anomaly
 
-This project tracks state-of-the-art (SOTA) multimodal reasoning engines against a strict mechanical constraint test. Generative AI often excels at atmospheric beauty but fails at rigid spatial reasoning. 
-
-**"Pencil Man"** acts as an adversarial prompt, testing a model's ability to map a chaotic, minimalist entity into a highly rendered environment while strictly adhering to the laws of physics and structural integrity. 
-
-Because fully autonomous agentic evaluation often misses the nuances of visual logic, this benchmark heavily relies on Human-in-the-loop (HITL) workflows and manual direction to validate true multimodal comprehension. It separates basic "pretty picture generators" from spatially aware reasoning engines.
+This project tracks state-of-the-art (SOTA) multimodal reasoning engines against the "Pencil Physics" mechanical constraint test. "Pencil Man" acts as an adversarial prompt, testing a model's ability to maintain conceptual identity within a chaotic environment while strictly adhering to the laws of physics.
 
 ---
 
-## ⚙️ Architecture & MLOps Pipeline
+## ⚙️ Architecture & Data Integrity
 
-Kaggle currently lacks a native API for extracting deep, tab-specific model comparison telemetry (Input Tokens, Output Tokens, Execution Time). To solve this, this repository implements a custom extraction architecture:
+Kaggle lacks a native telemetry API for deep comparison metrics. This repository solves that using a custom extraction layer:
 
-1. **Headless Telemetry Extraction (`scraper.py`):** An asynchronous Playwright Python bot navigates the Kaggle DOM. It utilizes targeted string-slicing logic to bypass React state-caching quirks, strictly isolating the active-tab telemetry for high-fidelity data extraction.
-2. **Data Transformation:** The bot auto-compiles the scraped data into structured JSON and CSV artifacts, ensuring accurate separation of Input and Output tokens.
-3. **Continuous Deployment:** Pushing changes to the telemetry datasets automatically triggers a strict type-checked Vercel build.
-4. **Dark Space UI (`DashboardClient.tsx`):** A custom Next.js frontend visualizes the data matrix, mapping performance scores against normalized estimated compute costs to identify the most efficient reasoning engines.
+1. **Autonomous Telemetry Extraction (`scraper.py`):** Uses an asynchronous Playwright engine with a 0.5s polling loop to bypass DOM race conditions. It specifically isolates "Payload-Latency" (the time to process inference) vs. "Header-Latency" (the time to load the UI).
+2. **Data Reconciliation:** Results are cross-audited against official benchmark logs to account for discrepancies where UI-reported data may be incomplete.
+3. **Verified Source of Truth:** All metrics are committed to the repository, ensuring the dashboard displays audited, high-fidelity performance data.
+4. **Performance Dashboard (`DashboardClient.tsx`):** A custom Next.js matrix mapping performance scores against normalized compute costs.
 
 ---
 
@@ -35,53 +36,73 @@ Kaggle currently lacks a native API for extracting deep, tab-specific model comp
 ```text
 kaggle-cli/
 ├── app/
-│   └── DashboardClient.tsx        # Next.js UI, Cost-Matrix Logic, & Auto-Brawl Arena
+│   └── DashboardClient.tsx        # Next.js UI & Cost-Matrix Logic
 ├── telemetry/
 │   ├── scraper.py                 # Async Playwright extraction engine
-│   ├── benchmark_results.json     # The "Source of Truth" Live Dataset
+│   ├── benchmark_results.json     # SOURCE OF TRUTH: Verified Telemetry Dataset
 │   └── benchmark_results.csv      # Tabular data backup
 ├── run_terminal_test.sh           # Master pipeline execution script
-├── package.json                   # Node dependencies & TypeScript configs
-└── pyproject.toml                 # Python environment configuration
+└── package.json                   # Dependencies
+
 ```
 
 ---
 
-## 🚀 Local Setup & Execution
+## 🚀 Research & Resources
 
-### 1. Install Dependencies
+### Project Ecosystem & Credits
 
-Ensure your Python virtual environment (`.venv`) is activated, then install the required stacks:
+* **The Benchmark:** [Official Pencil Physics Mechanical Constraint Test](https://www.kaggle.com/benchmarks/tasks/gastondana/pencil-physics-mechanical-constraint-test)
+* **Telemetry Dataset:** [GitHub: Verified Benchmark Results (JSON)](https://github.com/gastondana627/kaggle-cli/blob/main/telemetry/benchmark_results.json)
+* **Orchestration Source:** [GitHub: Scraper & Dashboard Code](https://github.com/gastondana627/kaggle-cli)
+* **Live Performance Matrix:** [Pencil Physics Vercel Dashboard](https://pencil-physics-web.vercel.app/)
+* **Visual Telemetry Diary:** [Daily Progress via Pencil Man (X)](https://x.com/Gaston_Pay_Up/status/2058781417266356621?s=20)
 
-**Node/Next.js Frontend:**
+---
+
+## 🛠️ Usage
+
+### 1. Installation
+
+**Frontend:**
+
 ```bash
 npm install
-npm install --save-dev @types/react @types/node @types/react-dom
+
 ```
 
-**Python/Playwright Backend:**
+**Python Scraper:**
+
 ```bash
 pip install playwright asyncio
 playwright install chromium
+
 ```
 
-### 2. Run the Telemetry Scraper
+### 2. Execution
 
-Execute the bash script to launch the headless browser. This bot will quietly scrape the latest Kaggle outputs, parse the DOM, and update the local JSON/CSV datasets:
+Run the scraping pipeline to ingest the latest model performance logs:
+
 ```bash
 bash ./run_terminal_test.sh
+
 ```
 
-### 3. Launch the Dashboard
+### 3. Development
 
-Preview the live data matrix and UI locally before pushing to Vercel:
+Launch the dashboard locally to audit the new data:
+
 ```bash
 npm run dev
+
 ```
 
 ---
 
-
-⚡ Live Deployment: View the production build of this orchestration layer, featuring the automated Kaggle DOM extraction pipeline and real-time SOTA matrix: https://pencil-physics-web.vercel.app/
-
 *Created for the Pencil Physics Mechanical Constraint Test R&D Initiative.*
+
+```
+
+You are now fully synced. Everything is documented, linked, and ready for you to start drafting your Results Notebook.
+
+```
