@@ -19,6 +19,25 @@ This project tracks SOTA reasoning engines against the "Pencil Physics" mechanic
 
 Kaggle lacks a native telemetry API for deep comparison metrics. This repository solves that using a custom extraction layer:
 
+### System Architecture
+
+```mermaid
+graph TD
+    A[Kaggle Benchmark UI] -->|Playwright Polling / Interception| B(telemetry/scraper.py)
+    B -->|Async Extraction| C[(telemetry/benchmark_results.json)]
+    C -->|Cost Calculation| D(telemetry/parser.py)
+    D -->|Processed Assertions| E[app/data/assertions.json]
+    E -->|UI Render| F((Next.js DashboardClient.tsx))
+
+    classDef daemon fill:#45ba4b,stroke:#2e7a32,stroke-width:2px,color:white;
+    classDef data fill:#f0ad4e,stroke:#d58512,stroke-width:2px,color:white;
+    classDef ui fill:#000000,stroke:#333333,stroke-width:2px,color:white;
+
+    class B daemon;
+    class C,E data;
+    class F ui;
+```
+
 1. **Autonomous Telemetry Extraction (`scraper.py`):** Uses an asynchronous Playwright engine. Currently optimizing to shift from 0.5s DOM polling to direct Network-Level Interception to completely eliminate UI rendering latency.
 2. **Data Reconciliation:** Results are cross-audited against official benchmark logs to account for discrepancies where UI-reported data may be incomplete.
 3. **Verified Source of Truth:** All metrics are committed to the repository, ensuring the dashboard displays audited, high-fidelity performance data.
